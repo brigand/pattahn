@@ -29,6 +29,9 @@ it(`works for .and of 2 simple conditions`, () => {
   assert_eq(both.exec(2), null);
   assert_eq(both.exec(4), null);
   assert_eq(both.exec(6), ['gt5']);
+
+  const contains = ['(and ', 'x > 3', 'x > 5'].map((s) => both.name.includes(s));
+  assert_eq(contains, [true, true, true]);
 });
 
 it(`works for .andThen of two simple conditions`, () => {

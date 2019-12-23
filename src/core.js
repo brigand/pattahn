@@ -1,3 +1,12 @@
+function fnToStr(fn) {
+  const s = String(fn).replace(/\s+/g, ' ');
+  if (s.length > 50) {
+    return s.slice(0, 20) + '…' + s.slice(-20);
+  } else {
+    return s;
+  }
+}
+
 class Match {
   constructor(...values) {
     this.values = values;
@@ -13,6 +22,12 @@ function andThen(match, then) {
 }
 
 class Condition {
+  static _overrideToString(toString) {
+    Condition.prototype.toString = function toStringOverride() {
+      return toString(this);
+    };
+  }
+
   constructor(impl, name = null) {
     this.impl = impl;
     this.name = name;
@@ -20,7 +35,7 @@ class Condition {
 
   exec(...xs) {
     const match = this.impl(...xs);
-    if (match && match.values) {
+    if (match && Array.isArray(match.values)) {
       return match.values;
     } else {
       return null;
@@ -48,7 +63,13 @@ class Condition {
 
   named(name, parts = []) {
     let args = parts
-      .map((part) => (part && part.name ? part.name : String(part)))
+      .map((part) =>
+        part && part.name
+          ? part.name
+          : typeof part.impl === 'function'
+          ? '(' + fnToStr(part.impl) + ')'
+          : 'unknown',
+      )
       .join(' ');
     if (args.length) {
       args = ` ${args}`;
