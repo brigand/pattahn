@@ -29,12 +29,17 @@ class Condition {
   }
 
   static strictEq(value) {
-    return new Condition((x) => x === value && new Match(x));
+    return Eq(value);
   }
 
-  constructor(impl, name = null) {
-    this.impl = impl;
+  constructor(name = null) {
     this.name = name;
+  }
+
+  static get factory() {
+    const factory = (...args) => new this(...args);
+    factory.class = this;
+    return factory;
   }
 
   exec(...xs) {
@@ -54,15 +59,11 @@ class Condition {
   }
 
   and(other) {
-    return new Condition(
-      (...xs) => this.impl(...xs) && other.impl(...xs),
-    ).named('and', [this, other]);
+    return And(this, other);
   }
 
   andThen(other) {
-    return new Condition((...xs) =>
-      andThen(this.impl(...xs), (...xs2) => other.impl(...xs2)),
-    ).named('andThen', [this, other]);
+    return AndThen(this, other);
   }
 
   named(name, parts = []) {
@@ -86,7 +87,9 @@ class Condition {
   }
 }
 
-module.exports = {
-  Match,
-  Condition,
-};
+exports.Match = Match;
+exports.Condition = Condition;
+
+const AndThen = require('./cond/AndThen');
+const And = require('./cond/And');
+const Eq = require('./cond/Eq');

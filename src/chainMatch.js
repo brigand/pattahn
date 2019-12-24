@@ -1,4 +1,5 @@
 const { Match, Condition } = require('./core');
+const Test = require('./cond/Test');
 
 class Matcher {
   constructor() {
@@ -17,7 +18,10 @@ class Matcher {
   }
 
   any(consequent) {
-    return this.with(new Condition((x) => new Match(x)), consequent);
+    return this.with(
+      Test(() => true),
+      consequent,
+    );
   }
 
   exec(...args) {

@@ -1,5 +1,7 @@
 const { Match, Condition } = require('./core');
 const RcMap = require('./rcMap');
+const Test = require('./cond/Test');
+const Eq = require('./cond/Eq');
 
 let counter = 10000000;
 const MATCHERS = new RcMap();
@@ -21,12 +23,10 @@ function match(...values) {
       toDrop.push(entry);
       return [entry.get(), consequent];
     } else if (key === '_' || key === '$default') {
-      const cond = new Condition((x) => new Match(x)).named('$default', []);
+      const cond = Test(() => true);
       return [cond, consequent];
     } else {
-      const cond = new Condition((x) =>
-        x === key ? new Match(x) : null,
-      ).named('literal', [key]);
+      const cond = Eq(key);
       return [cond, consequent];
     }
   });

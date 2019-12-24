@@ -1,5 +1,7 @@
 const { Condition, Match } = require('./core.js');
 const chainMatch = require('./chainMatch.js');
+const Eq = require('./cond/Eq');
+const Prop = require('./cond/Prop');
 
 it(`works for simple strings`, () => {
   let res_foo = chainMatch()
@@ -16,27 +18,16 @@ it(`works for simple strings`, () => {
   expect(res_bar).toBe('bar res');
 });
 
-function LenRange(min = null, max = null) {
-  if (!Number.isFinite(min)) {
-    min = -Infinity;
-  }
-  if (!Number.isFinite(max)) {
-    max = Infinity;
-  }
-
-  return new Condition(
-    (value) => value.length >= min && value.length <= max && new Match(value),
-  );
-}
+const LenEq = (desired) => Prop('length').andThen(Eq(desired));
 
 it(`works for simple conditions`, () => {
   const results = ['', 'f', 'fo', 'foo', 'bar', 'food'].map((word) =>
     chainMatch()
-      .with(LenRange(1, 1), 'len 1')
-      .with(LenRange(2, 2), 'len 2')
-      .with(Condition.strictEq('bar'), 'is bar')
-      .with(LenRange(3, 3), 'len 3')
-      .with(LenRange(4, 4), 'len 4')
+      .with(LenEq(1), 'len 1')
+      .with(LenEq(2), 'len 2')
+      .with(Eq('bar'), 'is bar')
+      .with(LenEq(3), 'len 3')
+      .with(LenEq(4), 'len 4')
       .any('default')
       .exec(word),
   );

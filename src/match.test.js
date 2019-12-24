@@ -1,5 +1,8 @@
 const { Condition, Match } = require('./core.js');
 const match = require('./match.js');
+const Eq = require('./cond/Eq');
+const Prop = require('./cond/Prop');
+const Test = require('./cond/Test');
 
 it(`works for simple strings`, () => {
   let res_foo = match('foo', {
@@ -23,19 +26,19 @@ function LenRange(min = null, max = null) {
     max = Infinity;
   }
 
-  return new Condition(
-    (value) => value.length >= min && value.length <= max && new Match(value),
-  );
+  return Test((value) => value.length >= min && value.length <= max);
 }
+
+const LenEq = (desired) => Prop('length').andThen(Eq(desired));
 
 it(`works for simple conditions`, () => {
   const results = ['', 'f', 'fo', 'foo', 'bar', 'food'].map((word) =>
     match(word, {
-      [LenRange(1, 1)]: 'len 1',
-      [LenRange(2, 2)]: 'len 2',
-      [new Condition((x) => x === 'bar' && new Match(x))]: 'is bar',
-      [LenRange(3, 3)]: 'len 3',
-      [LenRange(4, 4)]: 'len 4',
+      [LenEq(1)]: 'len 1',
+      [LenEq(2)]: 'len 2',
+      [Test((x) => x === 'bar')]: 'is bar',
+      [LenEq(3)]: 'len 3',
+      [LenEq(4)]: 'len 4',
       _: 'default',
     }),
   );
