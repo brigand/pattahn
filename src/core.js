@@ -28,6 +28,10 @@ class Condition {
     };
   }
 
+  static strictEq(value) {
+    return new Condition((x) => x === value && new Match(x));
+  }
+
   constructor(impl, name = null) {
     this.impl = impl;
     this.name = name;

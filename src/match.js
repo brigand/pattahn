@@ -50,7 +50,7 @@ function match(...values) {
   }
 
   if (result) {
-    return result.values.length < 2 ? result.values[0] : result.values;
+    return result.values[0];
   }
 
   return;
