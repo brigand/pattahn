@@ -1,24 +1,10 @@
 const { Condition, Match } = require('./core.js');
-const assert = require('assert');
-const assert_eq = assert.deepStrictEqual;
-
-function it(message, block) {
-  try {
-    console.log(`START - ${message}`);
-    block();
-    console.log(`OK - ${message}`);
-  } catch (error) {
-    console.log(`ERR - ${message}`);
-    console.error(error);
-    process.exit(1);
-  }
-}
 
 it(`works for simple condition`, () => {
   const is5 = new Condition((x) => (x === 5 ? new Match(true) : null));
 
-  assert_eq(is5.exec(5), [true]);
-  assert_eq(is5.exec(6), null);
+  expect(is5.exec(5)).toEqual([true]);
+  expect(is5.exec(6)).toBe(null);
 });
 
 it(`works for .and of 2 simple conditions`, () => {
@@ -26,12 +12,12 @@ it(`works for .and of 2 simple conditions`, () => {
   const isGt5 = new Condition((x) => (x > 5 ? new Match('gt5') : null));
   const both = isGt3.and(isGt5);
 
-  assert_eq(both.exec(2), null);
-  assert_eq(both.exec(4), null);
-  assert_eq(both.exec(6), ['gt5']);
+  expect(both.exec(2)).toBe(null);
+  expect(both.exec(4)).toBe(null);
+  expect(both.exec(6)).toEqual(['gt5']);
 
   const contains = ['(and ', 'x > 3', 'x > 5'].map((s) => both.name.includes(s));
-  assert_eq(contains, [true, true, true]);
+  expect(contains).toEqual([true, true, true]);
 });
 
 it(`works for .andThen of two simple conditions`, () => {
@@ -39,7 +25,7 @@ it(`works for .andThen of two simple conditions`, () => {
   const isGt35 = new Condition((x) => (x > 35 ? new Match('gt35') : null));
   const both = isGt3.andThen(isGt35);
 
-  assert_eq(both.exec(2), null);
-  assert_eq(both.exec(3.1), null);
-  assert_eq(both.exec(4), ['gt35']);
+  expect(both.exec(2)).toBe(null);
+  expect(both.exec(3.1)).toBe(null);
+  expect(both.exec(4)).toEqual(['gt35']);
 });

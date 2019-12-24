@@ -1,19 +1,5 @@
 const { Condition, Match } = require('./core.js');
 const chainMatch = require('./chainMatch.js');
-const assert = require('assert');
-const assert_eq = assert.deepStrictEqual;
-
-function it(message, block) {
-  try {
-    console.log(`START - ${message}`);
-    block();
-    console.log(`OK - ${message}`);
-  } catch (error) {
-    console.log(`ERR - ${message}`);
-    console.error(error);
-    process.exit(1);
-  }
-}
 
 it(`works for simple strings`, () => {
   let res_foo = chainMatch()
@@ -26,8 +12,8 @@ it(`works for simple strings`, () => {
     .with('bar', 'bar res')
     .exec('bar');
 
-  assert_eq(res_foo, 'foo res');
-  assert_eq(res_bar, 'bar res');
+  expect(res_foo).toBe('foo res');
+  expect(res_bar).toBe('bar res');
 });
 
 function LenRange(min = null, max = null) {
@@ -55,5 +41,5 @@ it(`works for simple conditions`, () => {
       .exec(word),
   );
 
-  assert_eq(results, ['default', 'len 1', 'len 2', 'len 3', 'is bar', 'len 4']);
+  expect(results).toEqual(['default', 'len 1', 'len 2', 'len 3', 'is bar', 'len 4']);
 });
