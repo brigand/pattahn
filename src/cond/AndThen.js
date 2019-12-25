@@ -22,6 +22,10 @@ class AndThen extends Condition {
       return null;
     }
   }
+
+  clone() {
+    return new AndThen(this.first, this.second);
+  }
 }
 
 module.exports = AndThen.factory;

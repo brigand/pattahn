@@ -18,6 +18,10 @@ class And extends Condition {
   impl(...args) {
     return (this.first.impl(...args) && this.second.impl(...args)) || null;
   }
+
+  clone() {
+    return new And(this.first, this.second);
+  }
 }
 
 module.exports = And.factory;
