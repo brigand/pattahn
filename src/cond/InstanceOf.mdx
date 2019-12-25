@@ -1,0 +1,19 @@
+---
+name: InstanceOf (condition)
+route: /cond/InstanceOf
+menu: Conditions
+---
+
+```js
+import match from 'matchany';
+import InstanceOf from 'matchany/cond/InstanceOf';
+
+const VALUE = 1;
+
+const result = match()
+  .with(InstanceOf(), 'matches')
+  .any('nope')
+  .exec(VALUE);
+
+expect(result).toBe('matches');
+```

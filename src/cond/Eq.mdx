@@ -1,0 +1,19 @@
+---
+name: Eq (condition)
+route: /cond/Eq
+menu: Conditions
+---
+
+```js
+import match from 'matchany';
+import Eq from 'matchany/cond/Eq';
+
+const VALUE = 1;
+
+const result = match()
+  .with(Eq(), 'matches')
+  .any('nope')
+  .exec(VALUE);
+
+expect(result).toBe('matches');
+```
