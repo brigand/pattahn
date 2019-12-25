@@ -52,10 +52,7 @@ class Condition {
   }
 
   or(other) {
-    return new Condition((...xs) => this.impl(...xs) || other.impl(...xs)).named(
-      'or',
-      [this, other],
-    );
+    return new Or(this, other);
   }
 
   and(other) {
@@ -91,5 +88,6 @@ exports.Match = Match;
 exports.Condition = Condition;
 
 const AndThen = require('./cond/AndThen');
+const Or = require('./cond/Or');
 const And = require('./cond/And');
 const Eq = require('./cond/Eq');
