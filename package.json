@@ -9,6 +9,10 @@
   "author": "Frankie Bagnardi <f.bagnardi@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^24.9.0"
+    "docz": "^2.2.0",
+    "glob": "^7.1.6",
+    "jest": "^24.9.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   }
 }
