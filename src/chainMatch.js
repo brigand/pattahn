@@ -39,6 +39,12 @@ class Matcher {
 
     return undefined;
   }
+
+  clone() {
+    return Object.assign(new Matcher(), {
+      cases: this.cases.slice(),
+    });
+  }
 }
 
 function chainMatch() {
