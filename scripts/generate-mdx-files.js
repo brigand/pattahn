@@ -14,7 +14,6 @@ const glob = require('glob');
     if (!fs.existsSync(mdx)) {
       console.log(`Generating .mdx for ${name} (${mdx})`);
       const contents = tpl.replace(/NAME/g, name);
-      console.log(contents);
       fs.writeFileSync(mdx, contents);
     }
   }
