@@ -29,7 +29,7 @@ function separateImports(blocks) {
     const withoutImport = block.replace(
       /\s*(import[^]*?from\s*)['"](.+?)['"];?\s*/g,
       (m, initial, path) => {
-        const absolute = path.replace(/^matchany(\/?)/, `${process.cwd()}/src/`);
+        const absolute = path.replace(/^pattahn(\/?)/, `${process.cwd()}/src/`);
         if (!imports.some((imp) => imp.includes(absolute))) {
           const defaultImport = initial.match(/import\s*([\w\s,{}]+?)\s*from/);
 

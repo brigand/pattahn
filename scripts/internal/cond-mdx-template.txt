@@ -5,8 +5,8 @@ menu: Conditions
 ---
 
 ```js
-import match from 'matchany';
-import NAME from 'matchany/cond/NAME';
+import match from 'pattahn';
+import NAME from 'pattahn/cond/NAME';
 
 const VALUE = 1;
 

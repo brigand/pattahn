@@ -8,7 +8,7 @@ let counter = 10000000;
 const MATCHERS = new RcMap();
 
 Condition._overrideToString((condition) => {
-  const id = `__matchany_matcher_${++counter}`;
+  const id = `__pattahn_matcher_${++counter}`;
   MATCHERS.entry(id).orInsert(condition);
   return id;
 });

@@ -1,6 +1,6 @@
 const { Match, Condition } = require('../core');
 
-const ANY_VALUE = Symbol('matchany::ANY_VALUE');
+const ANY_VALUE = Symbol('pattahn::ANY_VALUE');
 
 class Prop extends Condition {
   constructor(key, value = ANY_VALUE) {

@@ -10,10 +10,10 @@ Chain two conditions, piping the output of the first into the second. Yields the
 result of the second condition.
 
 ```js
-import match from 'matchany';
-import AndThen from 'matchany/cond/AndThen';
-import Test from 'matchany/cond/Test';
-import Prop from 'matchany/cond/Prop';
+import match from 'pattahn';
+import AndThen from 'pattahn/cond/AndThen';
+import Test from 'pattahn/cond/Test';
+import Prop from 'pattahn/cond/Prop';
 
 const VALUE = { foo: 17 };
 const Gt10 = Test((x) => x > 10);
@@ -28,7 +28,7 @@ expect(result).toBe('foo: 17');
 It's also available as `Condition#andThen`.
 
 ```js
-import Id from 'matchany/cond/id';
+import Id from 'pattahn/cond/id';
 
 const VALUE = { foo: 'foo', bar: 'bar' };
 
