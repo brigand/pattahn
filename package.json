@@ -1,18 +1,26 @@
 {
-  "name": "matchany",
-  "version": "0.1.0",
+  "name": "pattahn",
+  "private": true,
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "docs:dev": "docz dev",
     "docs:build": "docz build",
-    "docs:gh-pages": "DOCZ_BASE=/matchany/ npm run docs:build",
-    "gh-pages": "npm run docs:gh-pages && gh-pages -d .docz/dist"
+    "docs:gh-pages": "DOCZ_BASE=/pattahn/ npm run docs:build",
+    "gh-pages": "npm run docs:gh-pages && touch .docz/dist/.nojekyll && gh-pages -d .docz/dist",
+    "build": "npm run build:clean && npm run build:babel && npm run build:cp",
+    "build:clean": "rm -rf package/",
+    "build:babel": "babel src --out-dir package",
+    "build:cp": "node scripts/unprivate.js && cp README.md package/"
   },
   "author": "Frankie Bagnardi <f.bagnardi@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "docz": "^2.2.0",
     "glob": "^7.1.6",
     "jest": "^24.9.0",
