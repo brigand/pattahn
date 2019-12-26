@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "docs:dev": "docz dev",
+    "docs:build": "docz build",
+    "docs:gh-pages": "DOCZ_BASE=/matchany/ npm run docs:build",
+    "gh-pages": "npm run docs:gh-pages && gh-pages -d .docz/dist"
   },
   "author": "Frankie Bagnardi <f.bagnardi@gmail.com>",
   "license": "MIT",
