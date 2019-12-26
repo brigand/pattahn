@@ -4,16 +4,46 @@ route: /cond/AndThen
 menu: Conditions
 ---
 
+# AndThen
+
+Chain two conditions, piping the output of the first into the second.
+Yields the result of the second condition.
+
 ```js
 import match from 'matchany';
 import AndThen from 'matchany/cond/AndThen';
+import Test from 'matchany/cond/Test';
+import Prop from 'matchany/cond/Prop';
 
-const VALUE = 1;
+const VALUE = { foo: 17 };
+const Gt10 = Test(x => x > 10);
 
 const result = match()
-  .with(AndThen(), 'matches')
-  .any('nope')
+  .with(AndThen(Prop('foo'), Gt10), foo => `foo: ${foo}`)
   .exec(VALUE);
 
-expect(result).toBe('matches');
+expect(result).toBe('foo: 17');
+```
+
+It's also available as `Condition#andThen`.
+
+
+```js
+import Id from 'matchany/cond/id';
+
+const VALUE = { foo: 'foo', bar: 'bar' };
+
+const nonEmpty = Prop('length')
+  .andThen(Test(length => length > 0))
+  // This takes us back up one level (e.g. VALUE.foo.length -> VALUE.foo)
+  .and(Id());
+
+const fooNonEmpty = Prop('foo').andThen(nonEmpty)
+const barNonEmpty = Prop('bar').andThen(nonEmpty)
+
+const result = match()
+  .with(fooNonEmpty.and(barNonEmpty).and(Id()), value => value)
+  .exec(VALUE);
+
+expect(result).toBe(VALUE);
 ```
