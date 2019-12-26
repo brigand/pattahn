@@ -63,6 +63,10 @@ class Condition {
     return AndThen(this, other);
   }
 
+  filter(predicate) {
+    return Filter(this, predicate);
+  }
+
   named(name, parts = []) {
     let args = parts
       .map((part) =>
@@ -91,3 +95,4 @@ const AndThen = require('./cond/AndThen');
 const Or = require('./cond/Or');
 const And = require('./cond/And');
 const Eq = require('./cond/Eq');
+const Filter = require('./cond/Filter');
