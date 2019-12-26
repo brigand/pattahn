@@ -4,6 +4,9 @@ const Test = require('./cond/Test');
 class Matcher {
   constructor() {
     this.cases = [];
+
+    // Allows e.g. `promise.then(matcher.with(...).exec)`
+    this.exec = this.exec.bind(this);
   }
 
   with(condition, consequent) {
@@ -27,11 +30,10 @@ class Matcher {
   exec(...args) {
     for (const [cond, consequent] of this.cases) {
       const maybeMatch = cond.exec(...args);
+
       if (maybeMatch) {
         const result =
-          typeof consequent === 'function'
-            ? consequent(...maybeMatch.values)
-            : consequent;
+          typeof consequent === 'function' ? consequent(...maybeMatch) : consequent;
 
         return result;
       }
