@@ -1,3 +1,8 @@
+---
+route: /
+menu:
+---
+
 # pattahn
 
 [API Documentation]
