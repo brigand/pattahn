@@ -4,19 +4,35 @@ route: /cond/Filter
 menu: Conditions
 ---
 
-Test
+# Filter
+
+Behaves the same as `And` but with the argument order swapped. This allows you to
+add filter on conditions but retain the left value.
 
 ```js
 import match from 'matchany';
 import Filter from 'matchany/cond/Filter';
 import Prop from 'matchany/cond/Prop';
 import Id from 'matchany/cond/Id';
+```
 
+It can be used for a simple match.
+
+```js
+const VALUE = { foo: 1 };
+
+const result = Filter(Id(), Prop('foo', 1)).exec(VALUE);
+
+expect(result).toEqual([VALUE])
+```
+
+And is also exposed as a method on any `Condition`.
+
+```js
 const VALUE = { foo: 1 };
 
 const result = match()
   .with(Id().filter(Prop('foo', 1)), x => 'match: ' + x.foo)
-  .any('nope')
   .exec(VALUE);
 
 expect(result).toBe('match: 1');

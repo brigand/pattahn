@@ -60,7 +60,7 @@ module.exports = {
     let code = imports.join('\n') + '\n\n';
 
     for (const [i, test] of tests.entries()) {
-      code += `it('inline test ${i + 1}', () => {\n${test}\n});`;
+      code += `it('doc test ${i + 1}', () => {\n${test}\n});`;
       code += '\n\n';
     }
 
