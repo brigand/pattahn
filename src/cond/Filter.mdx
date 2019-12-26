@@ -1,0 +1,23 @@
+---
+name: Filter (condition)
+route: /cond/Filter
+menu: Conditions
+---
+
+Test
+
+```js
+import match from 'matchany';
+import Filter from 'matchany/cond/Filter';
+import Prop from 'matchany/cond/Prop';
+import Id from 'matchany/cond/Id';
+
+const VALUE = { foo: 1 };
+
+const result = match()
+  .with(Id().filter(Prop('foo', 1)), x => 'match: ' + x.foo)
+  .any('nope')
+  .exec(VALUE);
+
+expect(result).toBe('match: 1');
+```
