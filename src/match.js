@@ -2,6 +2,7 @@ const { Match, Condition } = require('./core');
 const RcMap = require('./rcMap');
 const Test = require('./cond/Test');
 const Eq = require('./cond/Eq');
+const chainMatch = require('./chainMatch');
 
 let counter = 10000000;
 const MATCHERS = new RcMap();
@@ -13,6 +14,10 @@ Condition._overrideToString((condition) => {
 });
 
 function match(...values) {
+  if (values.length < 2 || values[1] === undefined) {
+    return chainMatch();
+  }
+
   const matchers = values.pop();
   const entries = Object.entries(matchers);
 
