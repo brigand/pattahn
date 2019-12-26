@@ -4,16 +4,14 @@ route: /cond/Id
 menu: Conditions
 ---
 
+# Id (condition)
+
+This is the identity function, which simply returns an equivalent match to the input.
+
 ```js
-import match from 'matchany';
 import Id from 'matchany/cond/Id';
 
-const VALUE = 1;
+const VALUE = 7;
 
-const result = match()
-  .with(Id(), 'matches')
-  .any('nope')
-  .exec(VALUE);
-
-expect(result).toBe('matches');
+expect(Id().exec(VALUE)).toEqual([VALUE]);
 ```

@@ -4,10 +4,10 @@ route: /cond/Filter
 menu: Conditions
 ---
 
-# Filter
+# Filter (condition)
 
-Behaves the same as `And` but with the argument order swapped. This allows you to
-add filters on conditions but retain the left value.
+Behaves the same as `And` but with the argument order swapped. This allows you to add
+filters on conditions but retain the left value.
 
 ```js
 import match from 'matchany';
@@ -23,7 +23,7 @@ const VALUE = { foo: 1 };
 
 const result = Filter(Id(), Prop('foo', 1)).exec(VALUE);
 
-expect(result).toEqual([VALUE])
+expect(result).toEqual([VALUE]);
 ```
 
 And is also exposed as a method on any `Condition`.
@@ -32,7 +32,7 @@ And is also exposed as a method on any `Condition`.
 const VALUE = { foo: 1 };
 
 const result = match()
-  .with(Id().filter(Prop('foo', 1)), x => 'match: ' + x.foo)
+  .with(Id().filter(Prop('foo', 1)), (x) => 'match: ' + x.foo)
   .exec(VALUE);
 
 expect(result).toBe('match: 1');

@@ -4,15 +4,32 @@ route: /cond/Or
 menu: Conditions
 ---
 
+# Or (condition)
+
+Matches when either condition matches. Prefers returning the first condition's result,
+and won't execute the second condition if the first matches.
+
 ```js
 import match from 'matchany';
 import Or from 'matchany/cond/Or';
+import Eq from 'matchany/cond/Eq';
 
-const VALUE = 1;
+const VALUE = 2;
 
 const result = match()
-  .with(Or(), 'matches')
-  .any('nope')
+  .with(Or(Eq(1), Eq(2)), 'matches')
+  .exec(VALUE);
+
+expect(result).toBe('matches');
+```
+
+It's also available as `Condition#or`
+
+```js
+const VALUE = 2;
+
+const result = match()
+  .with(Eq(1).or(Eq(2)), 'matches')
   .exec(VALUE);
 
 expect(result).toBe('matches');

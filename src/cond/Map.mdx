@@ -4,16 +4,26 @@ route: /cond/Map
 menu: Conditions
 ---
 
+# Map (condition)
+
+Transform a value with a function, optionally producing new values in the from of a
+`Match` instance.
+
 ```js
 import match from 'matchany';
+import { Match } from 'matchany/core';
 import Map from 'matchany/cond/Map';
 
-const VALUE = 1;
+const VALUE = { x: 7 };
+
+// Take .x, double it, return that.
+const xNumber = Map((value) =>
+  typeof value.x === 'number' ? new Match(value.x * 2) : null,
+);
 
 const result = match()
-  .with(Map(), 'matches')
-  .any('nope')
+  .with(xNumber, (num) => `match: ${num}`)
   .exec(VALUE);
 
-expect(result).toBe('matches');
+expect(result).toBe('match: 14');
 ```

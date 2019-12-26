@@ -31,7 +31,7 @@ function separateImports(blocks) {
       (m, initial, path) => {
         const absolute = path.replace(/^matchany(\/?)/, `${process.cwd()}/src/`);
         if (!imports.some((imp) => imp.includes(absolute))) {
-          const defaultImport = initial.match(/import\s*(\w+)\s*/);
+          const defaultImport = initial.match(/import\s*([\w\s,{}]+?)\s*from/);
 
           if (defaultImport) {
             imports.push(`const ${defaultImport[1]} = require('${absolute}');`);

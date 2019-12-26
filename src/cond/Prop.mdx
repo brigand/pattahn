@@ -4,16 +4,35 @@ route: /cond/Prop
 menu: Conditions
 ---
 
+# Prop (condition)
+
+Prop extracts a property of an object with the specified key; matching if the property
+exists.
+
+It takes an optional second argument for the expected value, which is a shorthand for
+`Prop('key').andThen(Eq(value))` with `Prop('key', value)`.
+
 ```js
 import match from 'matchany';
 import Prop from 'matchany/cond/Prop';
 
-const VALUE = 1;
+const VALUE = { x: 1 };
 
 const result = match()
-  .with(Prop(), 'matches')
-  .any('nope')
+  .with(Prop('x'), (x) => `match: ${x}`)
   .exec(VALUE);
 
-expect(result).toBe('matches');
+expect(result).toBe('match: 1');
+```
+
+```js
+const VALUE = { x: 1 };
+
+const result = match()
+  .with(Prop('x', 0), 'first')
+  .with(Prop('x', 1), 'second')
+  .with(Prop('x', 2), 'third')
+  .exec(VALUE);
+
+expect(result).toBe('second');
 ```

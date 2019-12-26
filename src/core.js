@@ -52,7 +52,7 @@ class Condition {
   }
 
   or(other) {
-    return new Or(this, other);
+    return Or(this, other);
   }
 
   and(other) {
