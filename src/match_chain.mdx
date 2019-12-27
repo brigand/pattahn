@@ -1,0 +1,49 @@
+---
+name: match (chain)
+route: /match/chain
+---
+
+# match (chain variant)
+
+When match is called with 0 or 1 argument it returns a chainable instance for defining
+patterns to match on.
+
+The main two methods are `.with` to add a branch to the matching, and `.exec` to run
+the match operation (which can be called multiple times, if desired).
+
+```js
+import match from 'pattahn';
+
+const r1 = match()
+  .with('foo', 'is foo')
+  .with('bar', 'is bar')
+  .exec('foo');
+
+// The value can alternatively be provided to match() as a single argument,
+// if preferred for style.
+const r2 = match('foo')
+  .with('foo', 'is foo')
+  .with('bar', 'is bar')
+  .exec();
+
+expect(r1).toBe('is foo');
+expect(r2).toBe('is foo');
+```
+
+The first argument to `.with` is a condition, or a value supported by
+[intoCondition](/into-condition).
+
+The second argument is either a literal value, or a function that takes the output of
+the condition and returns the value. If the resulting value will be a function, then
+you need a function that returns a function.
+
+## Other methods
+
+The `.any` takes the second argument to `.with` and matches on any input (i.e. the
+default case for a match). The call `.any(result)` is identical to
+`.with(Test(() => true), result)`.
+
+Both `.any` and `.with` return the matcher object to allow chaining.
+
+The `.clone` method takes no arguments and returns a shallow clone of the matcher
+(where `.clone().with(...)` won't add a condition to the original).

@@ -35,16 +35,31 @@ import Eq from 'pattahn/cond/Eq';
 import Test from 'pattahn/cond/Test';
 
 const matcher = match()
-  .with(Eq('foo'), (value) => 'eq foo')
+  .with(Eq('foo').or(Eq('bar')), (value) => 'eq foo/bar')
   .with(
     Test((v) => v.length === 0),
     'empty',
   )
   .any((other) => 'other: ' + other);
 
-matcher.exec('foo'); // => 'eq foo'
+matcher.exec('foo'); // => 'eq foo/bar'
 matcher.exec(''); // => 'empty'
-matcher.exec('bar'); // => 'other: bar'
+matcher.exec('baz'); // => 'other: baz'
+```
+
+You can also match directly by using an object. Conditions can be used with the ES6
+dynamic key syntax.
+
+```js
+import match from 'pattahn';
+
+const result = match('foo', {
+  foo: 'eq foo',
+  [Eq('bar').or(Eq('baz'))]: 'foo or baz',
+  _: 'default',
+});
+
+result; // => 'eq foo'
 ```
 
 See the [API Documentation] for more details.

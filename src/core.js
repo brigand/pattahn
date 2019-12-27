@@ -59,6 +59,13 @@ class Condition {
     return And(this, other);
   }
 
+  /**
+   * e.g. And(c, d) is c.chain(And, d)
+   */
+  chain(factory, ...args) {
+    return factory(this, ...args);
+  }
+
   andThen(other) {
     return AndThen(this, other);
   }
