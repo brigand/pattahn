@@ -13,14 +13,6 @@ class Match {
   }
 }
 
-function andThen(match, then) {
-  if (match && match.values) {
-    return then(...match.values) || null;
-  } else {
-    return null;
-  }
-}
-
 class Condition {
   static _overrideToString(toString) {
     Condition.prototype.toString = function toStringOverride() {

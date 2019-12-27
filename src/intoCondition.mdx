@@ -1,0 +1,93 @@
+---
+name: Into Condition
+route: /into-condition
+---
+
+# IntoCondition
+
+Some APIs will convert non-Condition values to a Condition using some simple logic.
+
+You can also import the conversion function directly.
+
+```js
+import intoCondition from 'pattahn/intoCondition';
+```
+
+The "Case" sections are in order of preference (if one doesn't match, then the next is
+tried).
+
+## Case: Condition
+
+If the value is a `Condition` instance, then it's returned immediately and unmodified.
+
+```js
+import Eq from 'pattahn/cond/Eq';
+
+const arg = Eq(7);
+const condition = intoCondition(arg);
+expect(arg).toBe(condition);
+```
+
+## Case: Function
+
+The function will be wrapped in `Test`.
+
+```js
+const arg = (x) => x > 10;
+const condition = intoCondition(arg);
+
+expect(condition.exec(20)).toEqual([20]);
+expect(condition.exec(5)).toBe(null);
+```
+
+## Case: RegExp
+
+The regex will be wrapped in `RegexTest`.
+
+```js
+const arg = /^ba.$/;
+const condition = intoCondition(arg);
+
+expect(condition.exec('bar')).toEqual(['bar']);
+expect(condition.exec('baz')).toEqual(['baz']);
+expect(condition.exec('foo')).toBe(null);
+```
+
+## Case: Other Object
+
+The object will be used as a `MatchObject`. This can be nested as `MatchObject` uses
+`intoCondition` on the properties.
+
+```js
+const arg = { a: 'foo', b: { c: Eq('bar').or(Eq('baz')) } };
+const condition = intoCondition(arg);
+
+const good = {
+  a: 'foo',
+  b: {
+    c: 'baz',
+  },
+};
+
+const bad = {
+  a: 'foo',
+  b: {
+    c: 'quux',
+  },
+};
+
+expect(condition.exec(good)).toEqual([good]);
+expect(condition.exec(bad)).toBe(null);
+```
+
+## Case: Primitive
+
+The final case is where it's a primitive, and we simply wrap it in `Eq`.
+
+```js
+const arg = 7;
+const condition = intoCondition(arg);
+
+expect(condition.exec(7)).toEqual([7]);
+expect(condition.exec(49)).toBe(null);
+```
