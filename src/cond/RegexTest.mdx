@@ -1,0 +1,20 @@
+---
+name: RegexTest
+route: /cond/RegexTest
+menu: Conditions
+---
+
+# RegexTest (condition)
+
+A convenience wrapper around regex.test.
+
+See the [RegexBase] docs for different ways to construct a `RegexMatch`.
+
+[regexbase]: /cond/RegexBase
+
+```js
+import match from 'pattahn';
+import RegexTest from 'pattahn/cond/RegexTest';
+
+expect(RegexTest(/^\d+$/).exec('7')).toEqual(['7']);
+```

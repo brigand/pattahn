@@ -1,0 +1,27 @@
+---
+name: RegexMatchAll (condition)
+route: /cond/RegexMatchAll
+menu: Conditions
+---
+
+# RegexMatchAll (condition)
+
+This condition matches when the input is a string/number, even if the total number of
+matches is 0. The resulting value will be the result of `string.matchAll(regex)` ([a
+shim][matchall-shim] is included for now).
+
+See the [RegexBase] docs for different ways to construct a `RegexMatchAll`.
+
+[matchall-shim]: https://github.com/ljharb/String.prototype.matchAll
+[regexbase]: /cond/RegexBase
+
+```js
+import RegexMatchAll from 'pattahn/cond/RegexMatchAll';
+
+const matches = RegexMatchAll(/\d+/g)
+  .exec('7 a 32 b 49')
+  .shift()
+  .map((match) => match[0]);
+
+expect(matches).toEqual(['7', '32', '49']);
+```

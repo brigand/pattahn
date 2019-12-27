@@ -29,5 +29,8 @@
     "jest": "^24.9.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
+  },
+  "dependencies": {
+    "string.prototype.matchall": "^4.0.2"
   }
 }

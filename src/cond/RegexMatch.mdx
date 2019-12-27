@@ -1,0 +1,25 @@
+---
+name: RegexMatch
+route: /cond/RegexMatch
+menu: Conditions
+---
+
+# RegexMatch (condition)
+
+This condition matches when the input is a string/number, and also matches the regex
+at least once. The resulting value will be the result of `string.match(regex)`.
+
+See the [RegexBase] docs for different ways to construct a `RegexMatch`.
+
+[regexbase]: /cond/RegexBase
+
+```js
+import RegexMatch from 'pattahn/cond/RegexMatch';
+
+expect(
+  RegexMatch(/\d+/)
+    .exec('a 7 b')
+    .shift()
+    .shift(),
+).toEqual('7');
+```
