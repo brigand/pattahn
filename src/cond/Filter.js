@@ -17,7 +17,7 @@ class Filter extends Condition {
   impl(...args) {
     const m = this.value.impl(...args);
     if (m) {
-      if (this.predicate.impl(...args)) {
+      if (this.predicate.impl(...m.values)) {
         return m;
       }
     }
