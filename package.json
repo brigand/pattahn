@@ -1,7 +1,7 @@
 {
   "name": "pattahn",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "build:clean": "rm -rf package/",
     "build:babel": "babel src --out-dir package",
     "build:cp": "node scripts/unprivate.js && cp README.md package/",
-    "publish": "npm run build && cd package && npm publish"
+    "publish": "npm run build && ( cd package && npm publish )"
   },
   "author": "Frankie Bagnardi <f.bagnardi@gmail.com>",
   "license": "MIT",
