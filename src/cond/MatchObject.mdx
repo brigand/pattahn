@@ -1,0 +1,47 @@
+---
+name: MatchObject (condition)
+route: /cond/MatchObject
+menu: Conditions
+---
+
+# MatchObject
+
+The `MatchObject` condition is more complex than other matchers, but also very
+powerful. It uses the [IntoCondition] transform for values, so you can mix `Condition`
+instances and primitives, or even nest objects.
+
+[intocondition]: /into-condition
+
+```js
+import match from 'pattahn';
+import MatchObject from 'pattahn/cond/MatchObject';
+
+const USER = {
+  type: 'user',
+  data: { name: 'John Doe' },
+};
+const POST = {
+  type: 'post',
+  data: { title: 'A study of placeholder names' },
+};
+
+const USER_PATTERN = MatchObject({
+  type: 'user',
+  // This property will be added to the arguments of the pattern branch handler
+  data: MatchObject.Output(),
+});
+
+const POST_PATTERN = MatchObject({
+  type: 'post',
+  data: MatchObject.Output(),
+});
+
+const results = [USER, POST].map((value) =>
+  match(value)
+    .with(USER_PATTERN, (obj, user) => `user: ${user.name}`)
+    .with(POST_PATTERN, (obj, post) => `post: ${post.title}`)
+    .exec(),
+);
+
+expect(results).toEqual(['user: John Doe', 'post: A study of placeholder names']);
+```

@@ -2,6 +2,8 @@ const { Match, Condition } = require('../core');
 
 class Output extends Condition {
   constructor(condition = null) {
+    super('MatchObject.Output');
+
     this.condition = condition;
   }
   impl(...args) {
@@ -34,7 +36,7 @@ class MatchObject extends Condition {
 
     const outputs = [object];
     for (const [key, condition] of this.pairs) {
-      const match = condition.exec(object[key], ...args);
+      const match = condition.exec(object[key]);
       if (match) {
         if (condition instanceof Output) {
           outputs.push(match[0]);
