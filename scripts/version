@@ -1,0 +1,106 @@
+#!/usr/bin/env node
+
+const inquirer = require('inquirer');
+const cp = require('child_process');
+const fs = require('fs');
+
+const argv = process.argv.slice(2);
+
+const FLAGS = {
+  FORCE: argv.includes('-f') || argv.includes('--force'),
+};
+
+function ensurePackageJsonClean() {
+  try {
+    cp.execSync(`git --no-pager diff --exit-code package.json`, { stdio: 'inherit' });
+  } catch (error) {
+    console.error('');
+
+    if (FLAGS.FORCE) {
+      console.error(`Package.json is dirty, but continuing due to --force\n`);
+    } else {
+      console.error(`package.json is dirty. Aborting.\n`);
+      process.exit(1);
+    }
+  }
+}
+
+function readPackage() {
+  return JSON.parse(fs.readFileSync('package.json'));
+}
+function writePackage(data) {
+  fs.writeFileSync('package.json', JSON.stringify(data, null, 2));
+  cp.execSync(`npx prettier --write 'package.json'`);
+}
+
+function commit(version) {
+  cp.execSync(`git reset`, { stdio: 'pipe' });
+  const env = { ...process.env, NEW_VERSION: version };
+
+  cp.execSync(`git commit package.json -m "version $NEW_VERSION"`, {
+    stdio: 'inherit',
+    env,
+  });
+  cp.execSync(`git tag -a "v$NEW_VERSION" -m "Release $NEW_VERSION"`, {
+    stdio: 'inherit',
+    env,
+  });
+}
+
+function push() {
+  cp.execSync(`git push --follow-tags`, { stdio: 'inherit' });
+}
+
+function tick(version, index) {
+  const parts = version.split('.').map((x) => Number(x));
+  for (let i = index; i < parts.length; i++) {
+    if (i === index) {
+      parts[i] += 1;
+    } else {
+      parts[i] = 0;
+    }
+  }
+
+  return parts.join('.');
+}
+
+function makeChoice(version, index) {
+  const label = ['Major', 'Minor', 'Patch'][index];
+  const next = tick(version, index);
+
+  return {
+    name: `${label}: ${version} -> ${next}`,
+    value: next,
+  };
+}
+
+async function main() {
+  ensurePackageJsonClean();
+
+  const package = readPackage();
+
+  const { version } = await inquirer.prompt([
+    {
+      name: 'version',
+      type: 'list',
+      message: 'Select a version',
+      choices: [
+        makeChoice(package.version, 0),
+        makeChoice(package.version, 1),
+        makeChoice(package.version, 2),
+      ],
+    },
+  ]);
+
+  package.version = version;
+
+  writePackage(package);
+
+  commit(version);
+  push();
+}
+
+main().catch((error) => {
+  console.error(`FATAL`, error);
+  process.exit(1);
+});
