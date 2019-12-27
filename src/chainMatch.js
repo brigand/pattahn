@@ -2,7 +2,9 @@ const { Match, Condition } = require('./core');
 const Test = require('./cond/Test');
 
 class Matcher {
-  constructor() {
+  constructor(...args) {
+    this.execArgs = args;
+
     this.cases = [];
 
     // Allows e.g. `promise.then(matcher.with(...).exec)`
@@ -27,7 +29,9 @@ class Matcher {
     );
   }
 
-  exec(...args) {
+  exec(...directArgs) {
+    const args = this.execArgs.concat(directArgs);
+
     for (const [cond, consequent] of this.cases) {
       const maybeMatch = cond.exec(...args);
 
@@ -49,8 +53,8 @@ class Matcher {
   }
 }
 
-function chainMatch() {
-  return new Matcher();
+function chainMatch(...args) {
+  return new Matcher(...args);
 }
 
 chainMatch.Matcher = Matcher;

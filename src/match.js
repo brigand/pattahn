@@ -14,8 +14,11 @@ Condition._overrideToString((condition) => {
 });
 
 function match(...values) {
-  if (values.length < 2 || values[1] === undefined) {
-    return chainMatch();
+  switch (values.length) {
+    case 0:
+      return chainMatch();
+    case 1:
+      return chainMatch(values[0]);
   }
 
   const matchers = values.pop();

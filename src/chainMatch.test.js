@@ -34,3 +34,13 @@ it(`works for simple conditions`, () => {
 
   expect(results).toEqual(['default', 'len 1', 'len 2', 'len 3', 'is bar', 'len 4']);
 });
+
+it(`works with exec arg passed to chainMatch()`, () => {
+  const result = chainMatch('foo')
+    .with(LenEq(2), '2')
+    .with(LenEq(3), '3')
+    .with(LenEq(4), '4')
+    .exec();
+
+  expect(result).toBe('3');
+});
