@@ -38,7 +38,9 @@ class MatchObject extends Condition {
     for (const [key, condition] of this.pairs) {
       const match = condition.exec(object[key]);
       if (match) {
-        if (condition instanceof Output) {
+        if (condition instanceof MatchObject) {
+          outputs.push(...match.slice(1));
+        } else if (condition instanceof Output) {
           outputs.push(match[0]);
         }
       } else {
