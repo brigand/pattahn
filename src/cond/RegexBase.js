@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class RegexBase extends Condition {
   constructor(name, pattern, ...rest) {
@@ -18,7 +18,9 @@ class RegexBase extends Condition {
     }
   }
 
-  implRegex(...args) {}
+  implRegex() {
+    return null;
+  }
 
   impl(arg, ...args) {
     if (typeof arg === 'number') {

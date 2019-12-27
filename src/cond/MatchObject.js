@@ -48,6 +48,10 @@ class MatchObject extends Condition {
       }
     }
 
+    if (outputs.length === 1 && args.length) {
+      outputs.push(...args);
+    }
+
     return new Match(...outputs);
   }
 
