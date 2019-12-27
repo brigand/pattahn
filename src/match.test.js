@@ -37,7 +37,7 @@ it(`works for simple conditions`, () => {
       [LenEq(1)]: 'len 1',
       [LenEq(2)]: 'len 2',
       [Test((x) => x === 'bar')]: 'is bar',
-      [LenEq(3)]: 'len 3',
+      [LenEq(3)]: () => 'len 3',
       [LenEq(4)]: 'len 4',
       _: 'default',
     }),
@@ -50,9 +50,9 @@ it(`works with exec arg passed to chain`, () => {
   const results = ['', 'f', 'fo', 'foo', 'bar', 'food'].map((word) =>
     match(word)
       .with(LenEq(1), 'len 1')
-      .with(LenEq(2), 'len 2')
+      .with(LenEq(2), () => 'len 2')
       .with(Eq('bar'), 'is bar')
-      .with(LenEq(3), 'len 3')
+      .with(LenEq(3), () => 'len 3')
       .with(LenEq(4), 'len 4')
       .any('default')
       .exec(),

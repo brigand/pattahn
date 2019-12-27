@@ -44,7 +44,7 @@ function match(...values) {
     const maybeMatch = cond.exec(...values);
     if (maybeMatch && maybeMatch.values) {
       if (typeof consequent === 'function') {
-        result = new Match(consequent(...maybeMatch.values));
+        result = new Match(consequent(...maybeMatch));
       } else {
         result = new Match(consequent);
       }
