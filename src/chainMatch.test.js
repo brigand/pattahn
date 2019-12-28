@@ -1,4 +1,3 @@
-const { Condition, Match } = require('./core.js');
 const chainMatch = require('./chainMatch.js');
 const Eq = require('./cond/Eq');
 const Prop = require('./cond/Prop');

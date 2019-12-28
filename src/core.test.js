@@ -1,5 +1,3 @@
-const { Condition, Match } = require('./core.js');
-const Test = require('./cond/Test');
 const Map = require('./cond/Map');
 
 it(`works for simple condition`, () => {

@@ -1,4 +1,3 @@
-const { Condition, Match } = require('./core.js');
 const match = require('./match.js');
 const Eq = require('./cond/Eq');
 const Prop = require('./cond/Prop');
@@ -17,17 +16,6 @@ it(`works for simple strings`, () => {
   expect(res_foo).toBe('foo res');
   expect(res_bar).toBe('bar res');
 });
-
-function LenRange(min = null, max = null) {
-  if (!Number.isFinite(min)) {
-    min = -Infinity;
-  }
-  if (!Number.isFinite(max)) {
-    max = Infinity;
-  }
-
-  return Test((value) => value.length >= min && value.length <= max);
-}
 
 const LenEq = (desired) => Prop('length').andThen(Eq(desired));
 

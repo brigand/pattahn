@@ -44,12 +44,11 @@ class Entry {
       this.map.delete(this.key);
       return item.value;
     } else if (item) {
-      return item.value;
       item.count -= 1;
+      return item.value;
     } else {
       return null;
     }
-    return item && item.value;
   }
 }
 

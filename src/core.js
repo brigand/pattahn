@@ -33,7 +33,9 @@ class Condition {
     return intoCondition(value);
   }
 
-  static strictEq(value) {
+  static eq(value) {
+    const Eq = require('./cond/Eq');
+
     return Eq(value);
   }
 
