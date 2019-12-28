@@ -1,10 +1,5 @@
-const { Condition } = require('./core');
-const RegexTest = require('./cond/RegexTest');
-const Test = require('./cond/Test');
-const Eq = require('./cond/Eq');
-
 function intoCondition(value) {
-  if (value instanceof Condition) {
+  if (Condition.isA(value)) {
     return value;
   } else if (typeof value === 'function') {
     return Test(value);
@@ -19,4 +14,8 @@ function intoCondition(value) {
 
 module.exports = intoCondition;
 
+const { Condition } = require('./core');
 const MatchObject = require('./cond/MatchObject');
+const RegexTest = require('./cond/RegexTest');
+const Test = require('./cond/Test');
+const Eq = require('./cond/Eq');

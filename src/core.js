@@ -14,10 +14,28 @@ class Match {
 }
 
 class Condition {
+  get isPattahnCondition() {
+    return true;
+  }
+
+  static isA(value) {
+    if (value instanceof Condition) {
+      return true;
+    } else if (value && value.isPattahnCondition === true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static _overrideToString(toString) {
     Condition.prototype.toString = function toStringOverride() {
       return toString(this);
     };
+  }
+
+  static from(value) {
+    return intoCondition(value);
   }
 
   static strictEq(value) {
@@ -41,6 +59,10 @@ class Condition {
     } else {
       return null;
     }
+  }
+
+  test(...xs) {
+    return !!this.impl(...xs);
   }
 
   or(other) {
@@ -95,3 +117,4 @@ const Or = require('./cond/Or');
 const And = require('./cond/And');
 const Eq = require('./cond/Eq');
 const Filter = require('./cond/Filter');
+const intoCondition = require('./intoCondition');
