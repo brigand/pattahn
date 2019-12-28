@@ -1,4 +1,4 @@
-const { Match, Condition } = require('./core');
+const intoCondition = require('./intoCondition');
 const Test = require('./cond/Test');
 
 class Matcher {
@@ -12,12 +12,7 @@ class Matcher {
   }
 
   with(condition, consequent) {
-    const cond2 =
-      condition != null && typeof condition.impl === 'function'
-        ? condition
-        : Condition.strictEq(condition);
-
-    this.cases.push([cond2, consequent]);
+    this.cases.push([intoCondition(condition), consequent]);
 
     return this;
   }
