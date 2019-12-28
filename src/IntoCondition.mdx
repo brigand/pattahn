@@ -1,5 +1,5 @@
 ---
-name: Into Condition
+name: IntoCondition
 route: /into-condition
 ---
 
@@ -7,10 +7,15 @@ route: /into-condition
 
 Some APIs will convert non-Condition values to a Condition using some simple logic.
 
-You can also import the conversion function directly.
+Functions that perform this conversion are documented as taking a value of type
+`IntoCondition`.
+
+You can explicitly invoke this behavior with `Condition.from(value)`.
 
 ```js
-import intoCondition from 'pattahn/intoCondition';
+import { Condition } from 'pattahn/core';
+
+expect(Condition.from(7).test(7)).toBe(true);
 ```
 
 The "Case" sections are in order of preference (if one doesn't match, then the next is
@@ -24,7 +29,7 @@ If the value is a `Condition` instance, then it's returned immediately and unmod
 import Eq from 'pattahn/cond/Eq';
 
 const arg = Eq(7);
-const condition = intoCondition(arg);
+const condition = Condition.from(arg);
 expect(arg).toBe(condition);
 ```
 
@@ -34,7 +39,7 @@ The function will be wrapped in `Test`.
 
 ```js
 const arg = (x) => x > 10;
-const condition = intoCondition(arg);
+const condition = Condition.from(arg);
 
 expect(condition.exec(20)).toEqual([20]);
 expect(condition.exec(5)).toBe(null);
@@ -46,7 +51,7 @@ The regex will be wrapped in `RegexTest`.
 
 ```js
 const arg = /^ba.$/;
-const condition = intoCondition(arg);
+const condition = Condition.from(arg);
 
 expect(condition.exec('bar')).toEqual(['bar']);
 expect(condition.exec('baz')).toEqual(['baz']);
@@ -60,7 +65,7 @@ The object will be used as a `MatchObject`. This can be nested as `MatchObject` 
 
 ```js
 const arg = { a: 'foo', b: { c: Eq('bar').or(Eq('baz')) } };
-const condition = intoCondition(arg);
+const condition = Condition.from(arg);
 
 const good = {
   a: 'foo',
@@ -85,9 +90,8 @@ expect(condition.exec(bad)).toBe(null);
 The final case is where it's a primitive, and we simply wrap it in `Eq`.
 
 ```js
-const arg = 7;
-const condition = intoCondition(arg);
-
-expect(condition.exec(7)).toEqual([7]);
-expect(condition.exec(49)).toBe(null);
+for (const value of [7, 'foo', null, undefined, true, false]) {
+  const condition = Condition.from(value);
+  expect(condition.exec(value)).toEqual([value]);
+}
 ```
