@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class And extends Condition {
   /**
@@ -11,12 +11,12 @@ class And extends Condition {
   constructor(first, second) {
     super('And');
 
-    this.first = first;
-    this.second = second;
+    this.first = Condition.from(first);
+    this.second = Condition.from(second);
   }
 
-  impl(...args) {
-    return (this.first.impl(...args) && this.second.impl(...args)) || null;
+  exec(...args) {
+    return (this.first.exec(...args) && this.second.exec(...args)) || null;
   }
 
   clone() {

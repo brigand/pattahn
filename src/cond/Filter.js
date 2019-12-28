@@ -10,14 +10,14 @@ class Filter extends Condition {
   constructor(value, predicate) {
     super('Filter');
 
-    this.value = value;
-    this.predicate = predicate;
+    this.value = Condition.from(value);
+    this.predicate = Condition.from(predicate);
   }
 
-  impl(...args) {
-    const m = this.value.impl(...args);
+  exec(...args) {
+    const m = this.value.exec(...args);
     if (m) {
-      if (this.predicate.impl(...m.values)) {
+      if (this.predicate.exec(...m)) {
         return m;
       }
     }

@@ -9,12 +9,12 @@ The `Condition` class represents a boolean match and/or a transformation of the 
 values.
 
 ```js
-import { Condition, Match } from 'pattahn/core';
+import { Condition } from 'pattahn/core';
 ```
 
 You can subclass `Condition` by defining a constructor (which passes the name to
-super) and an `impl` method which takes at least one argument and returns `null` or a
-`Match`. Here's the simplest Condition: the identity condition.
+super) and an `exec` method which takes at least one argument and returns `null` or an
+array of results. Here's the simplest Condition: the identity condition.
 
 ```js
 class Id extends Condition {
@@ -22,8 +22,8 @@ class Id extends Condition {
     super('Id');
   }
 
-  impl(...args) {
-    return new Match(...args);
+  exec(...args) {
+    return args;
   }
 }
 

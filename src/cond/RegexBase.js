@@ -12,7 +12,7 @@ class RegexBase extends Condition {
       pattern.raw &&
       typeof pattern.raw[0] === 'string'
     ) {
-      return new this.constructor(String.raw(pattern, ...rest));
+      return this.constructor.factory(String.raw(pattern, ...rest));
     } else {
       this.pattern = pattern;
     }
@@ -22,9 +22,9 @@ class RegexBase extends Condition {
     return null;
   }
 
-  impl(arg, ...args) {
+  exec(arg, ...args) {
     if (typeof arg === 'number') {
-      return this.impl(String(arg));
+      return this.exec(String(arg), ...args);
     } else if (typeof arg !== 'string') {
       return null;
     }
@@ -33,7 +33,7 @@ class RegexBase extends Condition {
   }
 
   clone() {
-    return new this.constructor(this.pattern);
+    return this.factory(this.pattern);
   }
 }
 

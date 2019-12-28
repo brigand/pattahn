@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class Output extends Condition {
   constructor(condition = null) {
@@ -6,11 +6,11 @@ class Output extends Condition {
 
     this.condition = condition;
   }
-  impl(...args) {
+  exec(...args) {
     if (this.condition) {
-      return this.condition.impl(...args);
+      return this.condition.exec(...args);
     } else {
-      return new Match(...args);
+      return args;
     }
   }
 }
@@ -29,7 +29,7 @@ class MatchObject extends Condition {
     }
   }
 
-  impl(object, ...args) {
+  exec(object, ...args) {
     if (!object || typeof object !== 'object') {
       return null;
     }
@@ -52,7 +52,7 @@ class MatchObject extends Condition {
       outputs.push(...args);
     }
 
-    return new Match(...outputs);
+    return outputs;
   }
 
   clone() {

@@ -7,12 +7,6 @@ function fnToStr(fn) {
   }
 }
 
-class Match {
-  constructor(...values) {
-    this.values = values;
-  }
-}
-
 class Condition {
   get isPattahnCondition() {
     return true;
@@ -35,6 +29,7 @@ class Condition {
   }
 
   static from(value) {
+    const intoCondition = require('./intoCondition');
     return intoCondition(value);
   }
 
@@ -52,24 +47,23 @@ class Condition {
     return factory;
   }
 
-  exec(...xs) {
-    const match = this.impl(...xs);
-    if (match && Array.isArray(match.values)) {
-      return match.values;
-    } else {
-      return null;
-    }
+  exec() {
+    throw new Error(`Condition "${this.constructor.name}" must implement .exec`);
   }
 
   test(...xs) {
-    return !!this.impl(...xs);
+    return !!this.exec(...xs);
   }
 
   or(other) {
+    const Or = require('./cond/Or');
+
     return Or(this, other);
   }
 
   and(other) {
+    const And = require('./cond/And');
+
     return And(this, other);
   }
 
@@ -81,10 +75,14 @@ class Condition {
   }
 
   andThen(other) {
+    const AndThen = require('./cond/AndThen');
+
     return AndThen(this, other);
   }
 
   filter(predicate) {
+    const Filter = require('./cond/Filter');
+
     return Filter(this, predicate);
   }
 
@@ -93,8 +91,8 @@ class Condition {
       .map((part) =>
         part && part.name
           ? part.name
-          : typeof part.impl === 'function'
-          ? '(' + fnToStr(part.impl) + ')'
+          : typeof part.exec === 'function'
+          ? '(' + fnToStr(part.exec) + ')'
           : 'unknown',
       )
       .join(' ');
@@ -102,19 +100,11 @@ class Condition {
       args = ` ${args}`;
     }
     if (this.name) {
-      return new Condition(this.impl, `${this.name} |> ${name}`);
+      return new Condition(this.exec, `${this.name} |> ${name}`);
     } else {
-      return new Condition(this.impl, `(${name} ${args})`);
+      return new Condition(this.exec, `(${name} ${args})`);
     }
   }
 }
 
-exports.Match = Match;
 exports.Condition = Condition;
-
-const AndThen = require('./cond/AndThen');
-const Or = require('./cond/Or');
-const And = require('./cond/And');
-const Eq = require('./cond/Eq');
-const Filter = require('./cond/Filter');
-const intoCondition = require('./intoCondition');

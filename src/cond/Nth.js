@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class Nth extends Condition {
   constructor(index = 0) {
@@ -6,8 +6,8 @@ class Nth extends Condition {
     this.index = index;
   }
 
-  impl(...args) {
-    return new Match(args[this.index - 1]);
+  exec(...args) {
+    return [args[this.index - 1]];
   }
 
   clone() {

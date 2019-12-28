@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class Id extends Condition {
   /**
@@ -8,8 +8,8 @@ class Id extends Condition {
     super('Id');
   }
 
-  impl(...args) {
-    return new Match(...args);
+  exec(...args) {
+    return args;
   }
 
   clone() {

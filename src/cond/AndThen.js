@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class AndThen extends Condition {
   /**
@@ -10,14 +10,14 @@ class AndThen extends Condition {
    */
   constructor(first, second) {
     super('AndThen');
-    this.first = first;
-    this.second = second;
+    this.first = Condition.from(first);
+    this.second = Condition.from(second);
   }
 
-  impl(...args) {
-    const m = this.first.impl(...args);
-    if (m && Array.isArray(m.values)) {
-      return this.second.impl(...m.values) || null;
+  exec(...args) {
+    const m = this.first.exec(...args);
+    if (m) {
+      return this.second.exec(...m) || null;
     } else {
       return null;
     }

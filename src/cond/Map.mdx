@@ -17,9 +17,7 @@ import Map from 'pattahn/cond/Map';
 const VALUE = { x: 7 };
 
 // Take .x, double it, return that.
-const xNumber = Map((value) =>
-  typeof value.x === 'number' ? new Match(value.x * 2) : null,
-);
+const xNumber = Map((value) => (typeof value.x === 'number' ? [value.x * 2] : null));
 
 const result = match()
   .with(xNumber, (num) => `match: ${num}`)

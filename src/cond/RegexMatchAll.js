@@ -1,4 +1,3 @@
-const { Match } = require('../core');
 const matchAll = require('string.prototype.matchall');
 const { class: RegexBase } = require('./RegexBase');
 
@@ -12,7 +11,7 @@ class RegexMatchAll extends RegexBase {
 
     const match = matchAll(arg, this.pattern);
 
-    return new Match([...match], ...args);
+    return [[...match], ...args];
   }
 }
 

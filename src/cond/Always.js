@@ -1,13 +1,13 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class Always extends Condition {
   constructor(...args) {
     super();
 
-    this.result = new Match(...args);
+    this.result = args;
   }
 
-  impl() {
+  exec() {
     return this.result;
   }
 }

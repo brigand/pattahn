@@ -1,4 +1,3 @@
-const { Match } = require('../core');
 const { class: RegexBase } = require('./RegexBase');
 
 class RegexMatch extends RegexBase {
@@ -11,7 +10,7 @@ class RegexMatch extends RegexBase {
 
     const match = arg.match(this.pattern);
 
-    return match ? new Match(match, ...args) : null;
+    return match ? [match, ...args] : null;
   }
 }
 

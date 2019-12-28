@@ -3,15 +3,15 @@ const Test = require('./cond/Test');
 const Map = require('./cond/Map');
 
 it(`works for simple condition`, () => {
-  const is5 = Map((x) => (x === 5 ? new Match(true) : null));
+  const is5 = Map((x) => (x === 5 ? [true] : null));
 
   expect(is5.exec(5)).toEqual([true]);
   expect(is5.exec(6)).toBe(null);
 });
 
 it(`works for .and of 2 simple conditions`, () => {
-  const isGt3 = Map((x) => (x > 3 ? new Match('gt3') : null));
-  const isGt5 = Map((x) => (x > 5 ? new Match('gt5') : null));
+  const isGt3 = Map((x) => (x > 3 ? ['gt3'] : null));
+  const isGt5 = Map((x) => (x > 5 ? ['gt5'] : null));
   const both = isGt3.and(isGt5);
 
   expect(both.exec(2)).toBe(null);
@@ -23,8 +23,8 @@ it(`works for .and of 2 simple conditions`, () => {
 });
 
 it(`works for .andThen of two simple conditions`, () => {
-  const isGt3 = Map((x) => (x > 3 ? new Match(x * 10) : null));
-  const isGt35 = Map((x) => (x > 35 ? new Match('gt35') : null));
+  const isGt3 = Map((x) => (x > 3 ? [x * 10] : null));
+  const isGt35 = Map((x) => (x > 35 ? ['gt35'] : null));
   const both = isGt3.andThen(isGt35);
 
   expect(both.exec(2)).toBe(null);

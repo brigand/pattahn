@@ -6,9 +6,9 @@ class Test extends Condition {
     this.condition = condition;
   }
 
-  impl(...args) {
+  exec(...args) {
     if (this.condition(...args)) {
-      return new Match(...args);
+      return args;
     } else {
       return null;
     }

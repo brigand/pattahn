@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class Or extends Condition {
   /**
@@ -11,12 +11,12 @@ class Or extends Condition {
   constructor(first, second) {
     super('Or');
 
-    this.first = first;
-    this.second = second;
+    this.first = Condition.from(first);
+    this.second = Condition.from(second);
   }
 
-  impl(...args) {
-    return this.first.impl(...args) || this.second.impl(...args) || null;
+  exec(...args) {
+    return this.first.exec(...args) || this.second.exec(...args) || null;
   }
 
   clone() {

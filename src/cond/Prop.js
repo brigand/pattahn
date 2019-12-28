@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 const ANY_VALUE = Symbol('pattahn::ANY_VALUE');
 
@@ -9,7 +9,7 @@ class Prop extends Condition {
     this.value = value;
   }
 
-  impl(value, ...args) {
+  exec(value, ...args) {
     if (value == null) {
       return null;
     }
@@ -17,11 +17,13 @@ class Prop extends Condition {
     const propValue = value[this.key];
 
     if (this.value === ANY_VALUE) {
-      return new Match(propValue, ...args);
+      return [propValue, ...args];
     }
 
-    if (propValue === this.value) {
-      return new Match(propValue, ...args);
+    const condition = Condition.from(this.value);
+    const match = condition.exec(propValue);
+    if (match) {
+      return [propValue, ...match];
     }
 
     return null;

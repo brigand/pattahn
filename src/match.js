@@ -1,4 +1,4 @@
-const { Match, Condition } = require('./core');
+const { Condition } = require('./core');
 const RcMap = require('./rcMap');
 const Test = require('./cond/Test');
 const Eq = require('./cond/Eq');
@@ -42,11 +42,11 @@ function match(...values) {
   let result = null;
   for (const [cond, consequent] of checks) {
     const maybeMatch = cond.exec(...values);
-    if (maybeMatch && maybeMatch.values) {
+    if (maybeMatch) {
       if (typeof consequent === 'function') {
-        result = new Match(consequent(...maybeMatch));
+        result = [consequent(...maybeMatch)];
       } else {
-        result = new Match(consequent);
+        result = [consequent];
       }
 
       break;
@@ -58,7 +58,7 @@ function match(...values) {
   }
 
   if (result) {
-    return result.values[0];
+    return result[0];
   }
 
   return;

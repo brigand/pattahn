@@ -1,4 +1,4 @@
-const { Match, Condition } = require('../core');
+const { Condition } = require('../core');
 
 class Map extends Condition {
   /**
@@ -12,7 +12,7 @@ class Map extends Condition {
     this.mapper = mapper;
   }
 
-  impl(...args) {
+  exec(...args) {
     const result = this.mapper(...args);
     return result;
   }
