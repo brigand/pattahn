@@ -4,7 +4,9 @@ route: /cond/And
 menu: Conditions
 ---
 
-# And (condition)
+import CondType from '../docs/CondType';
+
+<CondType>And(left: IntoCondition, right: IntoCondition)</CondType>
 
 Matches when both conditions match, yielding the second condition's result. If the
 first condition doesn't match, then the second condition isn't executed.
