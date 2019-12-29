@@ -9,20 +9,24 @@ function parse(text) {
   const funcName = text.slice(0, paren).trim();
 
   const rest = text.slice(paren + 1).replace(/^(.*)\)[^)]*$/g, '$1');
-  const args = rest.split(',').map((arg) => {
-    const colon = arg.indexOf(':');
-    const name = arg.slice(0, colon).trim();
-    let ty = arg.slice(colon + 1).trim();
+  const args = rest
+    .split(',')
+    .filter((x) => x.trim())
+    .map((arg) => {
+      const colon = arg.indexOf(':');
+      const name = arg.slice(0, colon).trim();
+      let ty = arg.slice(colon + 1).trim();
 
-    const eq = ty.indexOf('=');
-    let defaultValue = null;
-    if (eq !== -1) {
-      defaultValue = ty.slice(eq + 1).trim();
-      ty = ty.slice(0, eq).trim();
-    }
+      const eq = ty.indexOf('=');
+      const gt = ty.indexOf('=>');
+      let defaultValue = null;
+      if (eq !== -1 && eq !== gt) {
+        defaultValue = ty.slice(eq + 1).trim();
+        ty = ty.slice(0, eq).trim();
+      }
 
-    return { name, ty, defaultValue };
-  });
+      return { name, ty, defaultValue };
+    });
 
   return { funcName, args };
 }
@@ -73,16 +77,18 @@ function CondType({ children }) {
     <h2 className="pattahn-CondType">
       <span style={getCodeStyle('function')}>{funcName}</span>
       {'('}
-      <ul>
-        {args.map((arg, i) => (
-          <li key={i}>
-            <strong style={getCodeStyle('property')}>{arg.name}</strong>:{' '}
-            <Ty text={arg.ty} getCodeStyle={getCodeStyle} />
-            <Default text={arg.defaultValue} getCodeStyle={getCodeStyle} />
-            {','}
-          </li>
-        ))}
-      </ul>
+      {args.length > 0 && (
+        <ul>
+          {args.map((arg, i) => (
+            <li key={i}>
+              <strong style={getCodeStyle('property')}>{arg.name}</strong>:{' '}
+              <Ty text={arg.ty} getCodeStyle={getCodeStyle} />
+              <Default text={arg.defaultValue} getCodeStyle={getCodeStyle} />
+              {','}
+            </li>
+          ))}
+        </ul>
+      )}
       {')'}
     </h2>
   );

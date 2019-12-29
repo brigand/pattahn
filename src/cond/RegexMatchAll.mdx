@@ -4,7 +4,9 @@ route: /cond/RegexMatchAll
 menu: Conditions
 ---
 
-# RegexMatchAll (condition)
+import CondType from '../docs/CondType';
+
+<CondType>RegexMatchAll(key: string | RegExp)</CondType>
 
 This condition matches when the input is a string/number, even if the total number of
 matches is 0. The resulting value will be the result of `string.matchAll(regex)` ([a

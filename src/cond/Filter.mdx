@@ -4,7 +4,9 @@ route: /cond/Filter
 menu: Conditions
 ---
 
-# Filter (condition)
+import CondType from '../docs/CondType';
+
+<CondType>Filter(predicate: IntoCondition)</CondType>
 
 Behaves the same as `And` but with the argument order swapped. This allows you to add
 filters on conditions but retain the left value.

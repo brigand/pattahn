@@ -4,10 +4,12 @@ route: /cond/Map
 menu: Conditions
 ---
 
-# Map (condition)
+import CondType from '../docs/CondType';
 
-Transform a value with a function, optionally producing new values in the from of a
-`Match` instance.
+<CondType>Map(transform: values => null | Array)</CondType>
+
+Transform a value with a function, optionally producing new values in the from of an
+array.
 
 ```js
 import match from 'pattahn';

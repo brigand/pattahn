@@ -4,7 +4,9 @@ route: /cond/RegexMatch
 menu: Conditions
 ---
 
-# RegexMatch (condition)
+import CondType from '../docs/CondType';
+
+<CondType>RegexMatch(key: string | RegExp)</CondType>
 
 This condition matches when the input is a string/number, and also matches the regex
 at least once. The resulting value will be the result of `string.match(regex)`.

@@ -4,7 +4,9 @@ route: /cond/Test
 menu: Conditions
 ---
 
-# Test (condition)
+import CondType from '../docs/CondType';
+
+<CondType>Test(predicate: values => boolean)</CondType>
 
 This takes a predicate function which will tbe applied to the inputs, and if it
 returns a truthy value, it will yield the input values unmodified.

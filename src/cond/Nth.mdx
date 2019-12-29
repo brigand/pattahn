@@ -4,12 +4,16 @@ route: /cond/Nth
 menu: Conditions
 ---
 
-# Nth (condition)
+import CondType from '../docs/CondType';
+
+<CondType>Nth(n: number)</CondType>
 
 In most cases, we're just looking at one value in conditions, but multiple values can
 flow through the match steps. A condition can receive and/or produce multiple values,
 and they'll either be returned as an array (with `Condition#match`) or passed to the
 match consequent functions with `match()`.
+
+`Nth(1)` refers to the first value (and `Nth(0)` is invalid).
 
 ```js
 import match from 'pattahn';

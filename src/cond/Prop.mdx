@@ -4,7 +4,10 @@ route: /cond/Prop
 menu: Conditions
 ---
 
-# Prop (condition)
+import CondType from '../docs/CondType';
+
+<CondType>Prop(key: string | number)</CondType>
+<CondType>Prop(propKey: string | number, propValue: any)</CondType>
 
 Prop extracts a property of an object with the specified key; matching if the property
 exists.

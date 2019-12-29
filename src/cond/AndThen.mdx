@@ -4,7 +4,9 @@ route: /cond/AndThen
 menu: Conditions
 ---
 
-# AndThen (condition)
+import CondType from '../docs/CondType';
+
+<CondType>AndThen(left: IntoCondition, right: IntoCondition)</CondType>
 
 Chain two conditions, piping the output of the first into the second. Yields the
 result of the second condition.

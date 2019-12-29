@@ -4,7 +4,9 @@ route: /cond/Or
 menu: Conditions
 ---
 
-# Or (condition)
+import CondType from '../docs/CondType';
+
+<CondType>Or(left: IntoCondition, right: IntoCondition)</CondType>
 
 Matches when either condition matches. Prefers returning the first condition's result,
 and won't execute the second condition if the first matches.
